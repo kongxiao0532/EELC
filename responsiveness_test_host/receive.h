@@ -26,7 +26,7 @@
 
 #define PACKET_NUM -1
 
-#define TARGET_MAC "68:91:d0:61:12:3a"
+#define TARGET_MAC "00:1b:21:93:33:d8"
 
 #define TIME_RECORD_SIZE 10000
 

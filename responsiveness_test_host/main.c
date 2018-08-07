@@ -8,10 +8,7 @@
 #include "main.h"
 
 int main(void) {
-    int ret;
-    void* status;
-
-   packets_receive();
+    packets_receive();
 
     return 0;
 }
