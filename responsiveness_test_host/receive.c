@@ -8,17 +8,17 @@
 #include "receive.h"
 
 void packets_receive(void* argv) {
-    char err_buf[PCAP_ERRBUF_SIZE];
+    char err_buffer[PCAP_ERRBUF_SIZE];
     pcap_t* receive_nic;
 
-    first_received = false;
+    first_received = 0;
 
     // open NIC
-    receive_nic = pcap_open(RECEIVE_NIC, 2048, PCAP_OPENFLAG_PROMISCUOUS, 100, NULL, errBuffer);
+    receive_nic = pcap_open(RECEIVE_NIC, 2048, PCAP_OPENFLAG_PROMISCUOUS, 100, NULL, err_buffer);
     // receive packets
     pcap_loop(receive_nic, PACKET_NUM, get_packet, (u_char*)receive_nic);
 
-    sprintf(stdout, "EELC-Receive: Ready to exit thread.\n");
+    printf(stdout, "EELC-Receive: Ready to exit thread.\n");
     // close NIC
     pcap_close(receive_nic);
 
@@ -44,14 +44,15 @@ void get_packet(u_char* arg, const struct pcap_pkthdr* pkthdr, const u_char* pac
     }
     // timing!
     if(first_received){
-        clock_gettime(CLOCK_REALTIME, &start_time);
-        sprintf("First packet received!\n");
-    }else{
         struct timespec current_time;
         clock_gettime(CLOCK_REALTIME, &current_time);
-        sprintf(
+        printf(
             "%luns\n", current_time.tv_nsec - start_time.tv_nsec
         );
+    }else{
+        clock_gettime(CLOCK_REALTIME, &start_time);
+        printf("First packet received!\n");
+        first_received = 1;
     }
     return;
 }

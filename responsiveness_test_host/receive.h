@@ -30,7 +30,7 @@
 
 #define TIME_RECORD_SIZE 10000
 
-bool first_received;
+int first_received;
 struct timespec start_time;
 
 void packets_receive();
